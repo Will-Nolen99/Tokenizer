@@ -51,12 +51,14 @@ class Tokenizer:
 
         line_reader = self.__read_line()
         current_line = next(line_reader)
+        num = 1
 
         while current_line != "EOF":
 
-            self.__process_line(current_line)
+            self.__process_line(current_line, num)
 
             current_line = next(line_reader)
+            num += 1
 
         line_reader.close()
 
@@ -65,12 +67,15 @@ class Tokenizer:
         print(self.token_stream)
 
 
-    def __process_line(self, line):
+    def __process_line(self, line, line_number):
 
         # break into tokens by whitespace for further processing
-        token_candidates = line.split(" ")
+        token_candidates = line.split()
         for token in token_candidates:
-            print(token)
+
+
+            #token = candidate.strip()
+            print(f"Current token candidate: {token}")
 
             # reserved word check
             if token in Tokenizer.reserved_words:
@@ -91,6 +96,12 @@ class Tokenizer:
             elif re.search(Tokenizer.INTEGER_REGEX, token) is not None:
                 self.token_stream.append(token)
                 print("Added")
+
+            else:
+                print(f"Unknown Token encountered on line: {line_number}")
+                print(f"{token} is unrecognized")
+                exit()
+            print()
 
 
 
