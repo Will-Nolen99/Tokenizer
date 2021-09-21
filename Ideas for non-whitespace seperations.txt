@@ -1,0 +1,4 @@
+run down each possible token in order from largest token to smallest.
+Use that token as a regex with the first character being the start of the line.
+if there is a match, add that token to the stream.
+break off the input where the token ends. repeat until the string is empty.

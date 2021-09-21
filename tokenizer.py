@@ -112,8 +112,13 @@ class Tokenizer:
                 print("Added")
 
 
-            # print error message if token is not recognized and exit process
+            # given string is not a direct token. It maybe multiple tokens with no whitespace between    
             else:
+
+
+
+
+                # print error message if token is not recognized and exit process
                 print(f"Unknown Token encountered on line: {line_number}")
                 print(f"{token} is unrecognized")
                 exit()
@@ -121,6 +126,55 @@ class Tokenizer:
 
 
 
+    # breaks apart a string that can possibly contain multiple tokens into its componenet parts
+    def __break_into_tokens(self, token_candidate):
+
+        # order of check is the reverse of Tokenizer.symbols
+        # followed by identifier followed by integer
+
+
+        line = token_candidate # this is added to reduce unwanted reference side effects. It may not be needed
+
+        while len(line) > 0:
+           
+
+            print("Odd token candidate encountered: ", line)
+
+            # use each symbol as reg ex
+            for symbol in reveresed(Tokenizer.symbols):
+                print(f"Checking if {symbol} starts token candidate")
+
+                # By add \A regex will only match if at the begining of the token candidate
+                symbol_regex = "\A" + symbol
+
+                # symbol check
+                if re.search(symbol_regex, line) is not None:
+                    # Token is in the current string
+                    self.token_stream_literal.append(symbol)
+                    self.token_stream.append(Tokenizer.symbols.index(symbol) + 12)
+
+                    print("Corresponding token id: ", Tokenizer.symbols.index(token) + 12)
+                    print("Added")
+
+                    line = line[len(symbol):]
+
+            # Since there is no longer a guarantee that this identifier is followed by whitespace
+            # The endline regex portion must be removed
+            id_regex = Tokenizer.IDENTIFIER_REGEX[:-2]
+            int_regex = Tokenizer.INTEGER_REGEX[:-2]
+
+            
+
+
+                    
+                    
+
+                
+
+
+            #add token to stream
+
+            # recurse
 
 
 
