@@ -29,8 +29,6 @@ class Tokenizer:
     IDENTIFIER_REGEX = "\A[A-Z]+[0-9]*\Z"  # This does not account for length of identifier.
     INTEGER_REGEX = "\A[\d]{1,8}\Z"    # This does length testing
 
-
-
     # Create a tokenizer with source as the file path to the source code.
     def __init__(self, source):
         self.source = source
@@ -73,8 +71,6 @@ class Tokenizer:
         token_candidates = line.split()
         for token in token_candidates:
 
-
-            #token = candidate.strip()
             print(f"Current token candidate: {token}")
 
             # reserved word check
@@ -97,6 +93,8 @@ class Tokenizer:
                 self.token_stream.append(token)
                 print("Added")
 
+
+            # print error message if token is not recognized and exit process
             else:
                 print(f"Unknown Token encountered on line: {line_number}")
                 print(f"{token} is unrecognized")
