@@ -1,0 +1,25 @@
+program
+
+
+int HELLO ;
+int TEST2 ;
+
+begin
+
+HELLO = 25 ;
+TEST2 = 2 ;
+
+while ( HELLO >= TEST2 ) loop
+
+	write TEST2 ;
+	TEST2 = TEST2 * 2 ;
+
+
+end ; 
+
+
+write TEST2 * HELLO ;
+
+end
+
+

@@ -32,6 +32,7 @@ class Tokenizer:
     # Create a tokenizer with source as the file path to the source code.
     def __init__(self, source):
         self.source = source
+        self.token_stream_literal = []
         self.token_stream = []
 
     # read source file a single line at a time.
@@ -60,8 +61,17 @@ class Tokenizer:
 
         line_reader.close()
 
+        print("EOF found!")
+        print("Added as ID 33")
+        self.token_stream_literal.append("EOF")
+        self.token_stream.append(33)
+
+
+
+
         print("Done Processing!")
         print("Final token Stream: ")
+        print(self.token_stream_literal)
         print(self.token_stream)
 
 
@@ -75,22 +85,30 @@ class Tokenizer:
 
             # reserved word check
             if token in Tokenizer.reserved_words:
-                self.token_stream.append(token)
+                self.token_stream_literal.append(token)
+                self.token_stream.append(Tokenizer.reserved_words.index(token) + 1)
+                print("Corresponding token id: ", Tokenizer.reserved_words.index(token) + 1)
                 print("Added")
 
             # special char check
             elif token in Tokenizer.symbols:
-                self.token_stream.append(token)
+                self.token_stream_literal.append(token)
+                self.token_stream.append(Tokenizer.symbols.index(token) + 12)
+                print("Corresponding token id: ", Tokenizer.symbols.index(token) + 12)
                 print("Added")
 
             # Identifier check
             elif re.search(Tokenizer.IDENTIFIER_REGEX, token) is not None and len(token) <= 8:
-                self.token_stream.append(token)
+                self.token_stream_literal.append(token)
+                self.token_stream.append(32)
+                print("Corresponding token id: ", 32)
                 print("Added")
 
             # integer check
             elif re.search(Tokenizer.INTEGER_REGEX, token) is not None:
-                self.token_stream.append(token)
+                self.token_stream_literal.append(token)
+                self.token_stream.append(31)
+                print("Corresponding token id: ", 31)
                 print("Added")
 
 
@@ -122,6 +140,6 @@ class Tokenizer:
 
 
 
-tk = Tokenizer("core1.txt")
+tk = Tokenizer("core2.txt")
 tk.tokenize()
 
