@@ -139,7 +139,15 @@ class Tokenizer:
 
 
 
+def main():
 
-tk = Tokenizer("core2.txt")
-tk.tokenize()
+    tk = Tokenizer("core2.txt")
+    tk.tokenize()
+
+
+if __name__ == "__main__":
+    main()
+
+
+
 
