@@ -1,0 +1,15 @@
+program
+
+HELLO9
+
+12345
+
+123456789012938123
+
+WEL123
+
+HELLOWEORWERWR
+
+begin
+
+end
