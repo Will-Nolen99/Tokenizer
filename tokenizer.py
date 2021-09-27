@@ -4,6 +4,7 @@ import sys
 
 class Tokenizer:
 
+
     messages = {"candidate": lambda token: print(f"Current token candidate: {token}"),
                 "word_id": lambda token: print(f"Added token id: {Tokenizer.reserved_words.index(token)+1}\n\n"),
                 "symbol_id": lambda token: print(f"Added token id: {Tokenizer.symbols.index(token)+12}\n\n"),
@@ -11,8 +12,8 @@ class Tokenizer:
                 "int": lambda: print("Added token id: 31\n\n"),
                 "odd": lambda line: print(f"Odd token candidate encountered: {line}\n"),
                 "check": lambda symbol: print(f"Checking if {symbol} starts token candidate"),
-                "id_f": lambda id: print(f"Identifier found: {id}\n\n"),
-                "int_f": lambda id: print(f"Integer found: {id}\n\n"),
+                "id_f": lambda identifier: print(f"Identifier found: {identifier}\n\n"),
+                "int_f": lambda integer: print(f"Integer found: {integer}\n\n"),
                 "unknown_line": lambda line_number: print(f"Unknown Token encountered on line: {line_number}"),
                 "unknown": lambda symbol: print(f"{symbol} is unrecognized\n"),
                 "EOF": lambda: print("EOF found!\nAdded token id: 33\n")
@@ -53,7 +54,7 @@ class Tokenizer:
         self.token_stream = []
         self.verbose = verbose
 
-    def __message(self, message_type, value=None):
+    def __message(self, message_type: str, value=None):
 
         if self.verbose:
             if value is None:
@@ -102,7 +103,7 @@ class Tokenizer:
             print(self.token_stream)
 
 
-    def __process_line(self, line, line_number):
+    def __process_line(self, line: str, line_number: int) -> None:
 
         # break into tokens by whitespace for further processing
         token_candidates = line.split()
@@ -140,9 +141,8 @@ class Tokenizer:
             else:
                 self.__break_into_tokens(token, line_number)
 
-
-    # breaks apart a string that can possibly contain multiple tokens into its componenet parts
-    def __break_into_tokens(self, token_candidate, line_number):
+    # breaks apart a string that can possibly contain multiple tokens into its component parts
+    def __break_into_tokens(self, token_candidate: str, line_number: int) -> None:
 
         # order of check is the reverse of Tokenizer.symbols
         # followed by identifier followed by integer
@@ -152,7 +152,7 @@ class Tokenizer:
 
         token_found = True
         while len(line) > 0 and token_found:
-           
+
             token_found = False
             self.__message("odd", line)
 
@@ -160,7 +160,7 @@ class Tokenizer:
             for symbol in reversed(Tokenizer.symbols):
                 self.__message("check", symbol)
 
-                # By add \A regex will only match if at the begining of the token candidate
+                # By add \A regex will only match if at the beginning of the token candidate
                 symbol_regex = "\A" + re.escape(symbol)
 
                 # symbol check
@@ -173,8 +173,13 @@ class Tokenizer:
 
                     line = line[len(symbol):]
 
+                    break
+                    # break is needed here to follow greedy tokenizing
+                    # if this was not here it would be possible to recognize
+                    # symbols with overlapping characters incorrectly
+
             # Since there is no longer a guarantee that this identifier is followed by whitespace
-            # The endline regex portion must be removed
+            # The end line regex portion must be removed
             id_regex = Tokenizer.IDENTIFIER_REGEX[:-2]
             int_regex = Tokenizer.INTEGER_REGEX[:-2]
 
@@ -204,6 +209,7 @@ class Tokenizer:
                 line = line[end_idx:]
 
 
+        # By this point if there are characters left in the line they are not a recognizable token
         if len(line) > 0:
             # print error message if token is not recognized and exit process
 
@@ -212,18 +218,20 @@ class Tokenizer:
             exit()
 
 
-    def get_token(self):
+    def getToken(self) -> int:
         return self.token_stream[0]
 
-    def skip_token(self):
+    def skipToken(self) -> None:
         self.token_stream_literal.pop(0)
         self.token_stream.pop(0)
 
-    def int_val(self):
+    def intVal(self) -> int:
         return self.token_stream_literal[0]
 
-    def id_name(self):
+    def idName(self) -> str:
         return self.token_stream_literal[0]
+
+
 
 
 
@@ -231,7 +239,7 @@ class Tokenizer:
 def main():
     file = sys.argv[1] if len(sys.argv) > 1 else input("Enter a file path: ")
 
-    if len(sys.argv) > 2 and "-v" == sys.argv[2]:
+    if "-v" in sys.argv:
         tokenizer = Tokenizer(file, True)
     else:
         tokenizer = Tokenizer(file)
@@ -239,19 +247,16 @@ def main():
     tokenizer.tokenize()
 
 
-    token = tokenizer.get_token()
+    token = tokenizer.getToken()
     print(token)
 
     while token != 33:
-        tokenizer.skip_token()
-        token = tokenizer.get_token()
+        tokenizer.skipToken()
+        token = tokenizer.getToken()
         print(token)
+
 
 
 
 if __name__ == "__main__":
     main()
-
-
-
-

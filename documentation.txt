@@ -1,0 +1,76 @@
+William Nolen
+
+
+Documentation
+#########################
+
+Design description:
+
+	My interpretation of the tokenizer works mainly be using regular expressions and generators in python.
+
+	The tokenizer creates a generator object based upon the filepath given to it at runtime. This generator
+	is called over and over using next() throughout the program and each time it yields the next line in the file.
+	When the generator detects no more data in the file, it returns a single line containing the EOF token.
+
+	Each time the generator is called the line is stripped of any whitespace and sent for processing.
+	Each line is split into a list based upon any whitespace as the seperator. Doing so allows for five
+	general cases to account for. If the token candidate is on its own in the input stream it can trivialy 
+	classified and turned into a token using regex or seeing if the token is in the list of keywords or symbols.
+	Since there are 4 categories this takes car of 4/5 cases.
+
+	The last remaining case is when Identifiers, Integers, and the resrved symbols are together with no whitespace.
+
+	To take care of this there is a method called __break_into_tokens. It turns the cluster of possible tokens and seperates
+	them into valid tokens if possible. It does this by turning each of the valid symbols into a regex. It does this using larger
+	tokens first trying to take as much of the candidate with it. When a symbol is detected at the beggining of the candidate, it 
+	is turned into a token and removed from the candidate. This is doen until an invalid token is found or the entire candidate 
+	is consumed.
+
+	Finally when tokens are stored they are stored in parrallel to their id. This allows tokens and id's to be used interchangebly when desired.
+	Doing so makes implementing the 4 methods getToken, skipToken, intVal, and idName trivial.
+
+
+############################	
+
+Instructions on how to use.
+
+	To use in a script create a tokenizer object with:	 tk = Tokenizer("file.txt")
+	file.txt is the path to the file.
+
+	If desired, verbose mode can be enables with:		 tk = Tokenizer("file.txt", True)
+
+
+	Once created begin tokenization with:			 tk.tokenize()
+
+
+	After the tokenization process is complete
+	The 4 methods getToken, skipToken, intVal,
+	and idName can be called using:			 	 tk.method()
+	Where method is the desired method.
+
+	
+	(I am using tk here for tokenizer. It has nothing to do with tkinter)
+
+
+
+##########################
+
+To test the tokenizer I created many sample core programs.
+Some had valid tokens some did not. I ran the tokenizer and
+made sure it would produce the correct output.
+
+I also tested my regex to make sure they were valid.
+I tested the regex with this website: https://pythex.org/
+
+
+##########################
+
+Known bugs
+	
+	I am only aware of one bug in the program. It is so obscure that I do not know if it is actually a bug with the tokenizer or one with piazza or vim.
+
+	When copying sample core programs from piazza into vim. Everything appears normal. However anytime the tokenizer would come upon what appeared as a tab in vim and piazza
+	it would read it as an obscure character that is not on my keyboard. It looks like an A with ~ above it. My guess is that it is some misscommunication with vim as when I 
+	would backspace the character in question and replace it with a tab the file would look identical as before but would run correctly.
+
+

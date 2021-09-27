@@ -1,0 +1,58 @@
+William Nolen
+
+Tokenizer
+
+
+#########################
+
+Files submitted: tokenizer.py
+
+tokenizer.py: 		Contains tokenizer class with all required methods to use the full functionality off the tokenizer.
+			Also includes main function that will run the tokenizer on provided files.
+
+README:			The file you are in now.
+
+
+Documentation.txt:	This file contains instructions, testing, and design ideas.
+
+
+
+#########################
+
+Instructions on how to use.
+	
+	The program can be ran through the comand line with:     	python tokenizer.py
+	This will run the main method which will prompt for	
+	file path to tokenize.
+
+
+	Optionally the filepath can be provided as an argument:  	python tokenizer.py filepath
+	This will skip the initial prompt and tokenizing will
+	begin immediately.
+
+
+	There is another optional commandline agument -v:		python tokenizer.py filepath -v
+	-v must be the second argument. Running the 
+	tokenizer with -v will print out information as 
+	the tokenizer runs. The information will be 
+	what and how the tokenizer is breaking up the
+	filestream into tokens.
+	Using -v requires python 3 as it makes use
+	of print inside of lambda functions. 
+	Because of how print was defined in
+	python 2 these functions will not 
+	function as desired and may even throw
+	exceptions.
+	
+	Finally the tokenizer uses the built in packages re and sys.
+	Since these are built into python there should be no need 
+	to install them. If there is though my best guess on how
+	to do so would be with pip.
+
+
+########################
+
+If any issues arise my email is nolen.40@osu.edu
+
+
+
