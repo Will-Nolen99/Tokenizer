@@ -183,8 +183,6 @@ class Tokenizer:
             id_regex = Tokenizer.IDENTIFIER_REGEX[:-2]
             int_regex = Tokenizer.INTEGER_REGEX[:-2]
 
-
-
             id_match = re.search(id_regex, line)
             if id_match is not None:
                 end_idx = id_match.end()
@@ -226,10 +224,22 @@ class Tokenizer:
         self.token_stream.pop(0)
 
     def intVal(self) -> int:
-        return self.token_stream_literal[0]
+
+        if self.getToken() == 31:
+            return self.token_stream_literal[0]
+        else:
+            print("Next token in token stream is not an integer!")
+            print("Next token id is: ", self.getToken())
+            exit()
 
     def idName(self) -> str:
-        return self.token_stream_literal[0]
+
+        if self.getToken() == 32:
+            return self.token_stream_literal[0]
+        else:
+            print("Next token in token stream is not an identifier!")
+            print("Next token id is: ", self.getToken())
+            exit()
 
 
 
@@ -254,6 +264,7 @@ def main():
         tokenizer.skipToken()
         token = tokenizer.getToken()
         print(token)
+
 
 
 
